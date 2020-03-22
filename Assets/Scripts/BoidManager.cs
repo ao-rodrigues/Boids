@@ -33,15 +33,13 @@ public class BoidManager : MonoBehaviour {
     
     
     void Start(){
-        //boids = FindObjectsOfType<Boid>();
+        boids = FindObjectsOfType<Boid>();
     }
 
     void Update(){
-        if (boids == null || boids.Length == 0) {
-            boids = FindObjectsOfType<Boid>();
-        }
-        
-        
+        if (boids == null || boids.Length == 0) return;
+
+
         boidData = new BoidData[boids.Length];
         
         int kernelId = boidComputeShader.FindKernel("BoidCompute");

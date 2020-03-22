@@ -375,7 +375,7 @@ MonoBehaviour:
   boidPrefab: {fileID: 6931790700311346456, guid: 26b9bafc6e5c5414ab97aa1eb4d51d56,
     type: 3}
   spawnRadius: 20
-  numSpawns: 5000
+  numSpawns: 4000
 --- !u!4 &987412051
 Transform:
   m_ObjectHideFlags: 0
