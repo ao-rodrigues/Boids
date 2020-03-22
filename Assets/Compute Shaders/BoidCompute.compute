@@ -1,0 +1,50 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel BoidCompute
+
+struct Boid {
+    float3 position;
+    float3 velocity;
+};
+
+unsigned int numBoids;
+float awarenessRadius;
+float minDistance;
+float alignmentRate;
+
+
+RWStructuredBuffer<Boid> boidData;
+
+[numthreads(1024,1,1)]
+void BoidCompute (uint3 id : SV_DispatchThreadID) {
+    float3 perceivedCentre = float3(0, 0, 0);
+    float3 perceivedVelocity = float3(0, 0, 0);
+    float3 displacement = float3(0, 0, 0);
+    
+    int found = 0;
+
+    for(unsigned int i = 0; i < numBoids; i++){
+        if(id.x != i){
+            float3 dist = boidData[i].position - boidData[id.x].position;
+            
+            if(length(dist) <= awarenessRadius){
+                perceivedCentre += dist;
+                perceivedVelocity += boidData[i].velocity;
+                found++;
+            }
+        
+            if(length(dist) < minDistance){
+                displacement -= dist;
+            }
+        }
+    }
+    
+    boidData[id.x].velocity += displacement; 
+    
+    if (found > 0){
+        perceivedCentre /= found;
+        boidData[id.x].velocity += (perceivedCentre - float3(0, 0, 0)) * (length(perceivedCentre) / awarenessRadius);
+        
+        perceivedVelocity /= found;
+        boidData[id.x].velocity += (perceivedVelocity - boidData[id.x].velocity) * alignmentRate;
+    }
+}
