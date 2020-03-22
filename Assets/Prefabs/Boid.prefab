@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6931790700311346470}
   - component: {fileID: 6931790700311346466}
   - component: {fileID: 6931790700311346467}
+  - component: {fileID: -4447612812203819119}
   m_Layer: 0
   m_Name: Boid
   m_TagString: Untagged
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 1, y: 0, z: 0}
   maxVelocity: 5
+  awarenessRadius: 5
 --- !u!114 &6931790700311346470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5c1c98fc4dead4e86726a381a0f30f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
 --- !u!114 &6931790700311346466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d4ed939fb2c7848815606b5e2927cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 2
+  minDistance: 0.4
 --- !u!114 &6931790700311346467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,3 +136,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96baafefbedbd794a95dadae0562a1dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4447612812203819119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6931790700311346456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e4da5f4d8d1db54c8d6e41ee2866119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  containerRadius: 30
+  boundaryForce: 10
