@@ -151,9 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boidComputeShader: {fileID: 7200000, guid: 68e43287ca172c044929867c4d643f69, type: 3}
-  awarenessRadius: 5
-  minDistance: 0.4
-  alignmentRate: 0.01
+  awarenessRadius: 4
+  minDistance: 0.5
+  alignmentRate: 0.125
 --- !u!4 &525594208
 Transform:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   boidPrefab: {fileID: 6931790700311346456, guid: 26b9bafc6e5c5414ab97aa1eb4d51d56,
     type: 3}
   spawnRadius: 20
-  numSpawns: 200
+  numSpawns: 5000
 --- !u!4 &987412051
 Transform:
   m_ObjectHideFlags: 0
