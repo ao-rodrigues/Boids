@@ -17,7 +17,8 @@ public class Boid : MonoBehaviour {
         velocity = transform.forward * maxVelocity;
     }
 
-    void Update(){
+    // Works like Update but it's directly called by BoidManager
+    public void UpdateBoid(){
         if (velocity.magnitude > maxVelocity) {
             velocity = velocity.normalized * maxVelocity;
         }

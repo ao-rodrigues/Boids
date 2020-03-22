@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoidSpawner : MonoBehaviour {
-
+    public BoidGrid _boidGrid;
     public GameObject boidPrefab;
-    public float spawnRadius = 10;
+    public Transform boidsParent;
     public int numSpawns;
-    
+
     void Awake(){
+        //_boidGrid = GetComponent<BoidGrid>();
+        var transformPos = transform.position;
+
         for (int i = 0; i < numSpawns; i++) {
-            Instantiate(boidPrefab, transform.position + Random.insideUnitSphere * spawnRadius, Random.rotation);
+            Vector3 spawnPos = new Vector3(Random.Range(transformPos.x, _boidGrid.gridSettings.numCellsX),
+                Random.Range(transformPos.y, _boidGrid.gridSettings.numCellsY),
+                Random.Range(transformPos.z, _boidGrid.gridSettings.numCellsZ));
+
+            var newBoid = Instantiate(boidPrefab, spawnPos, Random.rotation);
+            newBoid.transform.parent = boidsParent;
         }
     }
 }

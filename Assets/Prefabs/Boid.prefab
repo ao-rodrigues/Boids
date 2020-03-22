@@ -94,10 +94,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 1, y: 0, z: 0}
-  boidComputeShader: {fileID: 7200000, guid: 68e43287ca172c044929867c4d643f69, type: 3}
   maxVelocity: 5
   awarenessRadius: 5
-  minDistance: 0.4
 --- !u!114 &-4447612812203819119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,5 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e4da5f4d8d1db54c8d6e41ee2866119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  containerRadius: 30
+  minDistToBoundary: 10
   boundaryForce: 10
+  boidGrid: {fileID: 9147998862711515591, guid: 1b382feb668912746a0e420dcddee753,
+    type: 3}
