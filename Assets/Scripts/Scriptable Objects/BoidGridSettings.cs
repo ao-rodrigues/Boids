@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BoidGridSettings", menuName = "Boids/Boid Grid Settings", order = 1)]
+[CreateAssetMenu(fileName = "BoidGridSettings", menuName = "Boids/Boid Grid Settings", order = 2)]
 public class BoidGridSettings : ScriptableObject {
     public int numCellsX = 10;
     public int numCellsY = 10;

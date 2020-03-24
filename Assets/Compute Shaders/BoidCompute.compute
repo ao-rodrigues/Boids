@@ -4,6 +4,10 @@
 struct Boid {
     float3 position;
     float3 velocity;
+    
+    float3 perceivedCentre;
+    float3 perceivedVelocity;
+    float3 displacement;
 };
 
 unsigned int numBoids;
@@ -16,9 +20,9 @@ RWStructuredBuffer<Boid> boidData;
 
 [numthreads(1024,1,1)]
 void BoidCompute (uint3 id : SV_DispatchThreadID) {
-    float3 perceivedCentre = float3(0, 0, 0);
-    float3 perceivedVelocity = float3(0, 0, 0);
-    float3 displacement = float3(0, 0, 0);
+    boidData[id.x].perceivedCentre = float3(0, 0, 0);
+    boidData[id.x].perceivedVelocity = float3(0, 0, 0);
+    boidData[id.x].displacement = float3(0, 0, 0);
     
     int found = 0;
 
@@ -27,24 +31,24 @@ void BoidCompute (uint3 id : SV_DispatchThreadID) {
             float3 dist = boidData[i].position - boidData[id.x].position;
             
             if(length(dist) <= awarenessRadius){
-                perceivedCentre += dist;
-                perceivedVelocity += boidData[i].velocity;
+                boidData[id.x].perceivedCentre += dist;
+                boidData[id.x].perceivedVelocity += boidData[i].velocity;
                 found++;
             }
         
             if(length(dist) < minDistance){
-                displacement -= dist;
+                boidData[id.x].displacement -= dist;
             }
         }
     }
     
-    boidData[id.x].velocity += displacement; 
+    //boidData[id.x].displacement = displacement; 
     
     if (found > 0){
-        perceivedCentre /= found;
-        boidData[id.x].velocity += (perceivedCentre - float3(0, 0, 0)) * (length(perceivedCentre) / awarenessRadius);
+        boidData[id.x].perceivedCentre /= found;
+        //boidData[id.x].velocity += (perceivedCentre - float3(0, 0, 0)) * (length(perceivedCentre) / awarenessRadius);
         
-        perceivedVelocity /= found;
-        boidData[id.x].velocity += (perceivedVelocity - boidData[id.x].velocity) * alignmentRate;
+        boidData[id.x].perceivedVelocity /= found;
+        //boidData[id.x].velocity += (perceivedVelocity - boidData[id.x].velocity) * alignmentRate;
     }
 }

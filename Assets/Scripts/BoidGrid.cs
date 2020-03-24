@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 
 public class BoidGrid : MonoBehaviour {
-    
     public BoidGridSettings gridSettings;
 
     private LinkedList<Boid>[,,] _cells;
@@ -24,7 +23,8 @@ public class BoidGrid : MonoBehaviour {
 
         Vector3 transformPos = transform.position;
         // Calculate difference between Unity's world axis origin and the grid's local axis origin
-        _axisDiff = new Vector3(transformPos.x - offsetX, transformPos.y - offsetY, transformPos.z - offsetZ);
+        _axisDiff = new Vector3(Mathf.Abs(transformPos.x - offsetX), Mathf.Abs(transformPos.y - offsetY),
+            Mathf.Abs(transformPos.z - offsetZ));
     }
 
     private Vector3 GetLocalPos(Vector3 worldPos){
@@ -34,9 +34,9 @@ public class BoidGrid : MonoBehaviour {
     public void Add(Boid boid){
         Vector3 boidPos = GetLocalPos(boid.transform.position);
 
-        int x = (int) (boidPos.x / gridSettings.cellSize);
-        int y = (int) (boidPos.y / gridSettings.cellSize);
-        int z = (int) (boidPos.z / gridSettings.cellSize);
+        int x = Mathf.FloorToInt(boidPos.x / gridSettings.cellSize);
+        int y = Mathf.FloorToInt(boidPos.y / gridSettings.cellSize);
+        int z = Mathf.FloorToInt(boidPos.z / gridSettings.cellSize);
 
         if (_cells[x, y, z] == null) {
             _cells[x, y, z] = new LinkedList<Boid>();
@@ -45,12 +45,18 @@ public class BoidGrid : MonoBehaviour {
         _cells[x, y, z].AddLast(boid);
     }
 
+    public void AddAll(Boid[] boids){
+        foreach (var boid in boids) {
+            Add(boid);
+        }
+    }
+
     public Boid[] GetBoidsInSameCell(Boid boid){
         Vector3 boidPos = GetLocalPos(boid.transform.position);
 
-        int x = (int) (boidPos.x / gridSettings.cellSize);
-        int y = (int) (boidPos.y / gridSettings.cellSize);
-        int z = (int) (boidPos.z / gridSettings.cellSize);
+        int x = Mathf.FloorToInt(boidPos.x / gridSettings.cellSize);
+        int y = Mathf.FloorToInt(boidPos.y / gridSettings.cellSize);
+        int z = Mathf.FloorToInt(boidPos.z / gridSettings.cellSize);
 
         return _cells[x, y, z].ToArray();
     }
@@ -59,18 +65,23 @@ public class BoidGrid : MonoBehaviour {
         Vector3 localOldPos = GetLocalPos(oldPos);
 
         // Get old coords
-        int oldX = (int) (localOldPos.x / gridSettings.cellSize);
-        int oldY = (int) (localOldPos.y / gridSettings.cellSize);
-        int oldZ = (int) (localOldPos.z / gridSettings.cellSize);
+        int oldX = Mathf.FloorToInt(localOldPos.x / gridSettings.cellSize);
+        int oldY = Mathf.FloorToInt(localOldPos.y / gridSettings.cellSize);
+        int oldZ = Mathf.FloorToInt(localOldPos.z / gridSettings.cellSize);
 
         // Get new coords
         var newPos = GetLocalPos(boid.transform.position);
-        int newX = (int) (newPos.x / gridSettings.cellSize);
-        int newY = (int) (newPos.y / gridSettings.cellSize);
-        int newZ = (int) (newPos.z / gridSettings.cellSize);
+        int newX = Mathf.FloorToInt(newPos.x / gridSettings.cellSize);
+        int newY = Mathf.FloorToInt(newPos.y / gridSettings.cellSize);
+        int newZ = Mathf.FloorToInt(newPos.z / gridSettings.cellSize);
 
         // Check if they've changed
         if (oldX == newX && oldY == newY && oldZ == newZ) return;
+
+        if (oldX >= _cells.GetLength(0) || oldY >= _cells.GetLength(1) || oldZ >= _cells.GetLength(2)) {
+            var msg = $"({oldX}, {oldY}, {oldZ})";
+            Debug.Log(msg);
+        }
 
         // Remove boid from previous cell and add to new cell
         _cells[oldX, oldY, oldZ].Remove(boid);
