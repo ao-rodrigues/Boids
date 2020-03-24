@@ -18,26 +18,7 @@ public class BoidSpawner : MonoBehaviour {
         //_boidGrid = GetComponent<BoidGrid>();
         var transformPos = transform.position;
 
-        /*
-        // Get the smallest dimension to make sure boids won't spawn out of the grid, independently of its' dimensions
-        float minDimension = Mathf.Min(_boidGrid.gridSettings.numCellsX,
-            Mathf.Min(_boidGrid.gridSettings.numCellsY, _boidGrid.gridSettings.numCellsZ));
-
-        float spawnRadiusX = transformPos.x +
-                             minDimension * _boidGrid.gridSettings.cellSize / 3f;
-        float spawnRadiusY = transformPos.y +
-                             minDimension * _boidGrid.gridSettings.cellSize / 3f;
-        float spawnRadiusZ = transformPos.z +
-                             minDimension * _boidGrid.gridSettings.cellSize / 3f;
-                             */
-
         for (int i = 0; i < numSpawns; i++) {
-            /*
-            Vector3 spawnPos = new Vector3(Random.Range(transformPos.x, spawnRadiusX),
-                Random.Range(transformPos.y, spawnRadiusY),
-                Random.Range(transformPos.z, spawnRadiusZ));
-                */
-
             Vector3 spawnPos = transformPos + Random.insideUnitSphere * spawnRadius;
 
             var newBoid = Instantiate(boidPrefab, spawnPos, Random.rotation);
